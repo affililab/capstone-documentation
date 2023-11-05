@@ -1,5 +1,3 @@
-# Capstone Project Documentation
-
 ## Intro
 For Affiliate Marketers one of the hardest parts is to find good Products, there is a lot to
 consider. The promoted product must fit the target group. The product should be relevant to
@@ -19,6 +17,44 @@ The Website https://affililab.de can be visited here **[here](https://affililab.
 
 # Technical Structure of the Project
 **[All Draw IO Diagrams](./assets/application-structure.drawio)**
+
+- [Capstone Project Documentation](#capstone-project-documentation)
+    * [Intro](#intro)
+- [Technical Structure of the Project](#technical-structure-of-the-project)
+    * [Application Overview](#application-overview)
+        + [Project Entities](#project-entities)
+    * [Frontend](#frontend)
+        + [used frameworks & Libraries](#used-frameworks--libraries)
+    + [Redux implementation](#redux-implementation)
+    + [Usage of Provider Pattern](#usage-of-provider-pattern)
+    + [Apollo Graphql Client](#apollo-graphql-client)
+    + [Layouts Components Main Page and Dashboard](#layouts-components-main-page-and-dashboard)
+    + [Frontend Authentication](#frontend-authentication)
+    + [Module Structure](#module-structure)
+        * [Backend](#backend)
+    + [Request Flow](#request-flow)
+    + [Authentication Structure](#authentication-structure)
+    + [Backend Authorization](#backend-authorization)
+        * [Database Structure](#database-structure)
+            + [ERM](#erm)
+        * [Crawler](#crawler)
+            + [indexing](#indexing)
+            + [crawling](#crawling)
+            + [importer](#importer)
+        * [Recommendation Service](#recommendation-service)
+- [!recommendation-approaches.svg](#recommendation-approachessvg)
+    * [Integration of the Recommendation System into the Project Structure](#integration-of-the-recommendation-system-into-the-project-structure)
+- [!recommendation-overview.svg](#recommendation-overviewsvg)
+    * [Content Based](#content-based)
+- [!cosin-similarity-search.png](#cosin-similarity-searchpng)
+    + [Algorithm Flow Chart](#algorithm-flow-chart)
+        * [Collaborative](#collaborative)
+            + [Algorithm Flow Chart](#algorithm-flow-chart-1)
+        * [Security Measurements](#security-measurements)
+            + [Thread Model](#thread-model)
+        * [Application Security](#application-security)
+            + [Threats](#threats)
+
 ## Application Overview
 [![Frontend Application Structure](./assets/images/application-structure/application-structure.svg)](./assets/images/application-structure/application-structure.svg)
 ### Project Entities
@@ -166,31 +202,31 @@ export const resourceSchema = () => [
             }
         }
     }
-    ];
+];
 ```
 
 - Last step registering into NavConfig
 ```typescript
     // routes/paths.tsx
 
-    // add myNewResource
-    myNewResource: paths(ROOTS_SUPPORT, '/myNewResource'),
-        
-    // routes/NavConfig.tsx
-    
-    // register ICON
-    const ICONS = {
-        ...existingIcons,
-        myNewResource: getIcon('bx:category')
+// add myNewResource
+myNewResource: paths(ROOTS_SUPPORT, '/myNewResource'),
+
+// routes/NavConfig.tsx
+
+// register ICON
+const ICONS = {
+    ...existingIcons,
+    myNewResource: getIcon('bx:category')
+}
+
+// register in NavConfig
+items: [
+    ...existing,
+    {
+        title: 'mynewresource', path: PATH_APP.support.myNewResource, icon: ICONS.myNewResource
     }
-    
-    // register in NavConfig
-    items: [
-        ...existing,
-        {
-            title: 'mynewresource', path: PATH_APP.support.myNewResource, icon: ICONS.myNewResource
-        }
-    ]
+]
 ```
 Finally a managed table will exists as admin, contributor role like in the following example, with create / read / update / delete functionality
 # ![manage-table.png](assets%2Fimages%2Fapplication-screenshots%2Fmanage-table.png)
@@ -198,12 +234,12 @@ Finally a managed table will exists as admin, contributor role like in the follo
 ## Backend
 
 The Backend is build in Typescript with Apollo Express Webserver and divided in the actual application and a Library containing base functionality like
- - Upload Handling
- - Authentication
- - Sanitzing input
- - Rate Limiting
- - initializing of the webserver
-It uses Dependency Injections for Project Dependencies usage of Single Responsible Principe, Layered Architecture dividing Data Layer, Presentation Layer, Frameworks Layer for Database Connection init Webserver, Services for using 3rdParty APIs and so on ... .
+- Upload Handling
+- Authentication
+- Sanitzing input
+- Rate Limiting
+- initializing of the webserver
+  It uses Dependency Injections for Project Dependencies usage of Single Responsible Principe, Layered Architecture dividing Data Layer, Presentation Layer, Frameworks Layer for Database Connection init Webserver, Services for using 3rdParty APIs and so on ... .
 - Casl is used for building Athorization Abilities.
 - Authentication with jwt token encrypted with Argon2
 - Redis Server for Ratelimiting
@@ -224,7 +260,7 @@ The following Diagram shows the Request Flow of the Backend.
 ![request-workflow.svg](assets%2Fimages%2Frequest-workflow.svg)
 ### Authentication Structure
 Here the Authentication Structure in Backend is Described. In the first Flowchart, the context of the ApolloServer is getting initialized to get access to authenticated User in the Controller Layer.
-The the second Flowchart describes the Login flow by using Argon2 hashing algorithm and signing the jwt Token. 
+The the second Flowchart describes the Login flow by using Argon2 hashing algorithm and signing the jwt Token.
 ![backend-authentication.svg](assets%2Fimages%2Fbackend-authentication.svg)
 ### Backend Authorization
 Here the Authorization Handling is described, what the Authorization Data contains such as actions and subjects and how the abilityMiddleware checks if the user has the requested ability or not.
@@ -263,7 +299,7 @@ To do so the Partnerprograms and User Preferences has to get transformed into Em
 Word Embeddings are widely used in NLP (Natural Language Processing), it represents the text as vectors in a multidimensional space.
 To do so I used here a pretrained Model from Sbert (many open source models) which is good for multilingual paraphrasing, "paraphrase-multilingual-mpnet-base-v2".
 For the reason to not create embeddings for all partnerprograms on every request which takes a long time (8250 Items), I used a Vector Database to store them and perform Vector Similarity Search on it.
-To get matching results I used Cosine Similarity Search. 
+To get matching results I used Cosine Similarity Search.
 As you can see in the Diagram I use weightings to achieve that Products with better Values are getting more relevant in recommendation.
 # ![cosin-similarity-search.png](assets%2Fimages%2Fcosine-similarity-search.png)
 ### Algorithm Flow Chart
@@ -297,35 +333,35 @@ To handle new users without train the whole model again, it saves the whole mode
 
 ### Threats
 - DDoS Attacks - **Denial of Service**
-   - Make Backend Service unavailable with Too Many Requests for the Server
-   - Migration:
-      - Use Loadbalancing and Autoscaling to hardening Service from too many requests
-      - implement rate limiting
+    - Make Backend Service unavailable with Too Many Requests for the Server
+    - Migration:
+        - Use Loadbalancing and Autoscaling to hardening Service from too many requests
+        - implement rate limiting
 - NoSQL Injection protection - **Tampering**
-   - Users could try to inject unallowed data into database or try to read from database throgh injected code
-   - Migration: Validate User Input and escape it before saving into database
+    - Users could try to inject unallowed data into database or try to read from database throgh injected code
+    - Migration: Validate User Input and escape it before saving into database
 - Access of a User through Bruteforcing Accountname / Password - **Spoofing**
-   - User could get access of user by brute force the password of an account
-   - Migration:
-      - not allowing weak passwords
-      - implement rate limiting for user login
+    - User could get access of user by brute force the password of an account
+    - Migration:
+        - not allowing weak passwords
+        - implement rate limiting for user login
 - Server Config Information Disclosure through API - **Information disclosure**
-   - Attackers can get Service Config Information through Error Messages in Graphql
-   - Migration:
-      - implement custom error handling instead of giving unfiltered error message from passport especially
-      - on prod disable stack tracing
+    - Attackers can get Service Config Information through Error Messages in Graphql
+    - Migration:
+        - implement custom error handling instead of giving unfiltered error message from passport especially
+        - on prod disable stack tracing
 - cross site scripting attack to execute code in frontend of other users - **Tambering**
-   - Attackers could execute cross site scripting attack to execute code in frontend of other users or getting information from backend through console logs or alerts
-   - Migrations: escape all user inputs & don't execute js which is comming from backend
+    - Attackers could execute cross site scripting attack to execute code in frontend of other users or getting information from backend through console logs or alerts
+    - Migrations: escape all user inputs & don't execute js which is comming from backend
 - Attackers with access to container could manipulate logging files - **repudiation**
-   - Attackers with access to container could manipulate logging files
-   - Migration:  usage of audit logging of kubernetes microservices logging mechanism
+    - Attackers with access to container could manipulate logging files
+    - Migration:  usage of audit logging of kubernetes microservices logging mechanism
 - Attackers could communicate with backend from own frontend - **spoofing**
-   - Migration: origin check with whitelist of allowed frontend services
+    - Migration: origin check with whitelist of allowed frontend services
 - Attackers could get information over the network - **Information disclosure**
-   - Migration: encrypt all traffic with TLS
+    - Migration: encrypt all traffic with TLS
 - sending too big requests and let server crash **Denial of service**
-   - Migration: request size checking
+    - Migration: request size checking
 - session hijacking - **Elevation of privilege**
-   - the attacker could manipulate his session to become an higher privileged user
-   - Migration: use custom secret to sign session with hash value
+    - the attacker could manipulate his session to become an higher privileged user
+    - Migration: use custom secret to sign session with hash value
