@@ -1,0 +1,1817 @@
+{
+  "summary": {
+    "title": "gke-application-environment"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "cells": [
+          {
+            "position": {
+              "x": 864,
+              "y": 474
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "mongodb database"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 1,
+            "id": "6df58d7f-8fb6-4b1d-9069-8d24a80769fd",
+            "data": {
+              "name": "mongodb database",
+              "description": "",
+              "type": "tm.Store",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Elevation of privilege",
+                  "title": "doing allowed actions by getting access to database connection",
+                  "mitigation": "- use account based conection withrestricted scope of access",
+                  "threatId": "5934950e-79db-4165-9027-2bbd7f24a8a2",
+                  "$$hashKey": "object:460",
+                  "id": "cdfcaa41-8bf2-4a2a-854c-5f8cdf448cd5"
+                }
+              ],
+              "hasOpenThreats": false,
+              "isALog": false,
+              "storesCredentials": false,
+              "isEncrypted": false,
+              "isSigned": false
+            }
+          },
+          {
+            "position": {
+              "x": 30,
+              "y": 300
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "redis store"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 2,
+            "id": "b75189d8-8eb2-4348-9708-b5d8a4057b28",
+            "data": {
+              "name": "redis store",
+              "description": "",
+              "type": "tm.Actor",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "Cross Site Scripting",
+                  "description": "Attackers could let execute JavaScript through User Input and then execute JS to change the Software from that Point",
+                  "mitigation": "- Not executing Javascript which is coming from Backend\n- escape js from inputs",
+                  "threatId": "72b3cc87-a587-4c3c-afbc-d63be87aa7e2",
+                  "$$hashKey": "object:88",
+                  "id": "bc393770-43c9-4e39-88c8-254bbfab8e00"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "cross site scripting through user input",
+                  "description": "attackers could create content with html code inside which executes js",
+                  "mitigation": "remove all js from html",
+                  "threatId": "16490a3e-ee8f-49a6-b739-7de78a6af035",
+                  "$$hashKey": "object:85",
+                  "id": "470b8a7d-9ab0-4830-94f0-a49c0751e95a",
+                  "new": false
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "prevent xss attack via html rendered element",
+                  "description": "In the frontend application is one item which renderes html content from backend, here attackers could try to inject Javascript Code here",
+                  "mitigation": "stripe all js elements from html string",
+                  "threatId": "3c5d8369-c618-47f4-9d79-b057e7244284",
+                  "$$hashKey": "object:63",
+                  "id": "64c87321-1e04-4f9a-8beb-cd1b1e7fd4d0"
+                }
+              ],
+              "hasOpenThreats": false,
+              "isALog": false,
+              "storesCredentials": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 400,
+              "y": 70
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "frontend"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 4,
+            "id": "8798b15d-8939-4f3b-8b27-78ec7d95b697",
+            "data": {
+              "name": "frontend",
+              "description": "",
+              "type": "tm.Flow",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "NoSQL Injection protection",
+                  "description": "Users could try to inject unallowed data into database or try to read from database throgh injected code",
+                  "mitigation": "Validate User Input and escape it before saving into database",
+                  "threatId": "14b8dd8a-f5c1-4bef-900c-0f9168b1cc8c",
+                  "$$hashKey": "object:57",
+                  "id": "32593d4f-a633-436d-b73b-4587c524b723"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Spoofing",
+                  "title": "Access of a User through Bruteforcing Accountname / Password",
+                  "description": "User could get access of user by brute force the password of an account",
+                  "mitigation": "- not allowing weak passwords\n- implement rate limiting for user login",
+                  "threatId": "fe52bba2-5123-45c3-b0e9-4ec775bdea3a",
+                  "$$hashKey": "object:259",
+                  "id": "4978a13c-bf36-45f2-aaf6-1bb16d95621f",
+                  "new": false
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Information disclosure",
+                  "title": "Server Config Information Disclosure through API",
+                  "description": "Attackers can get Service Config Information through Error Messages in Graphql",
+                  "mitigation": "- implement custom error handling instead of giving unfiltered error message from passport especially\n- on prod disable stack tracing",
+                  "threatId": "b3afb822-1124-4ae1-9ef0-df56b572bf01",
+                  "$$hashKey": "object:631",
+                  "id": "8bb97fd7-2680-4c2f-aa53-161ab621f56d"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "cross site scripting attack to execute code in frontend of other users",
+                  "mitigation": "escape all user inputs & don't execute js which is comming from backend",
+                  "description": "Attackers could execute cross site scripting attack to execute code in frontend of other users or getting information from backend through console logs or alerts",
+                  "threatId": "f51d9666-e83b-4c71-9e57-10ea065b5283",
+                  "$$hashKey": "object:62",
+                  "id": "de92cf68-140a-491e-8f03-4f1b884fce59"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "title": "Attackers with access to container could manipulate logging files",
+                  "type": "Repudiation",
+                  "mitigation": "- usage of audit logging of kubernetes microservices logging mechanism",
+                  "description": "Attackers with access to container could manipulate logging files",
+                  "threatId": "c70876f8-7a3c-4b09-b46d-a643213a2924",
+                  "$$hashKey": "object:75",
+                  "id": "fd9ec9e4-c9ae-4833-92eb-410b022efd86"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could communicate with backend from own frontend",
+                  "type": "Spoofing",
+                  "mitigation": "- origin check with whitelist of allowed frontend services",
+                  "threatId": "5253ed83-e692-4821-be4e-771bdeeaa50e",
+                  "$$hashKey": "object:69",
+                  "id": "c76f1f79-c299-4fdb-8fa6-e5a2c13d7ff8"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could get information over the network",
+                  "mitigation": "- encrypt all traffic with TLS",
+                  "type": "Information disclosure",
+                  "threatId": "da91cb95-86e2-4eee-8119-21e93085444f",
+                  "$$hashKey": "object:67",
+                  "id": "0af4b190-a835-4e62-a95c-c880aa705e25"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Denial of service",
+                  "title": "sending too big requests and let server crash",
+                  "mitigation": "- request size checking",
+                  "threatId": "9eb6378c-5750-4f8d-8e2d-d54f5bee1603",
+                  "$$hashKey": "object:454",
+                  "id": "5b43629a-ab40-4f81-8ac3-ad0449739984"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "session hijacking",
+                  "type": "Elevation of privilege",
+                  "description": "the attacker could manipulate his session to become an higher privileged user",
+                  "mitigation": "use custom secret to sign session with hash value",
+                  "threatId": "443e1701-6a92-43c5-9efd-85ca39148991",
+                  "$$hashKey": "object:78",
+                  "id": "3de7e11f-14c5-4b25-b8d0-710c2180c2ea"
+                }
+              ],
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "isBidirectional": false,
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false
+            }
+          },
+          {
+            "position": {
+              "x": 330,
+              "y": 300
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "backend"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 4,
+            "id": "2d3a84f7-ff4e-4594-b039-d33a57f9245d",
+            "data": {
+              "name": "backend",
+              "description": "",
+              "type": "tm.Flow",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "title": "DDoS Attacks",
+                  "type": "Denial of service",
+                  "description": "Attackers could try to slow down or shut down the server by sending too many requests",
+                  "mitigation": "implement rate limiting",
+                  "threatId": "47f62aa7-5467-4bbd-9fb7-c7abdca7bedc",
+                  "$$hashKey": "object:112",
+                  "id": "6e833f44-7feb-4e01-a253-3e6c071a22f7"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "title": "NoSQL Injection protection",
+                  "type": "Tampering",
+                  "description": "Users could try to inject unallowed data into database or try to read from database throgh injected code",
+                  "mitigation": "Validate User Input and escape it before saving into database",
+                  "threatId": "14b8dd8a-f5c1-4bef-900c-0f9168b1cc8c",
+                  "$$hashKey": "object:57",
+                  "id": "32593d4f-a633-436d-b73b-4587c524b723"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Spoofing",
+                  "title": "Access of a User through Bruteforcing Accountname / Password",
+                  "description": "User could get access of user by brute force the password of an account",
+                  "mitigation": "- not allowing weak passwords\n- implement rate limiting for user login",
+                  "threatId": "fe52bba2-5123-45c3-b0e9-4ec775bdea3a",
+                  "$$hashKey": "object:259",
+                  "id": "4978a13c-bf36-45f2-aaf6-1bb16d95621f",
+                  "new": false
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Information disclosure",
+                  "title": "Server Config Information Disclosure through API",
+                  "description": "Attackers can get Service Config Information through Error Messages in Graphql",
+                  "mitigation": "- implement custom error handling instead of giving unfiltered error message from passport especially\n- on prod disable stack tracing",
+                  "threatId": "b3afb822-1124-4ae1-9ef0-df56b572bf01",
+                  "$$hashKey": "object:631",
+                  "id": "8bb97fd7-2680-4c2f-aa53-161ab621f56d"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "cross site scripting attack to execute code in frontend of other users",
+                  "mitigation": "escape all user inputs & don't execute js which is comming from backend",
+                  "description": "Attackers could execute cross site scripting attack to execute code in frontend of other users or getting information from backend through console logs or alerts",
+                  "threatId": "f51d9666-e83b-4c71-9e57-10ea065b5283",
+                  "$$hashKey": "object:62",
+                  "id": "de92cf68-140a-491e-8f03-4f1b884fce59"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "title": "Attackers with access to container could manipulate logging files",
+                  "type": "Repudiation",
+                  "mitigation": "- usage of audit logging of kubernetes microservices logging mechanism",
+                  "description": "Attackers with access to container could manipulate logging files",
+                  "threatId": "c70876f8-7a3c-4b09-b46d-a643213a2924",
+                  "$$hashKey": "object:75",
+                  "id": "fd9ec9e4-c9ae-4833-92eb-410b022efd86"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could communicate with backend from own frontend",
+                  "type": "Spoofing",
+                  "mitigation": "- origin check with whitelist of allowed frontend services",
+                  "threatId": "5253ed83-e692-4821-be4e-771bdeeaa50e",
+                  "$$hashKey": "object:69",
+                  "id": "c76f1f79-c299-4fdb-8fa6-e5a2c13d7ff8"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could get information over the network",
+                  "mitigation": "- encrypt all traffic with TLS",
+                  "type": "Information disclosure",
+                  "threatId": "da91cb95-86e2-4eee-8119-21e93085444f",
+                  "$$hashKey": "object:67",
+                  "id": "0af4b190-a835-4e62-a95c-c880aa705e25"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Denial of service",
+                  "title": "sending too big requests and let server crash",
+                  "mitigation": "- request size checking",
+                  "threatId": "9eb6378c-5750-4f8d-8e2d-d54f5bee1603",
+                  "$$hashKey": "object:454",
+                  "id": "5b43629a-ab40-4f81-8ac3-ad0449739984"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "session hijacking",
+                  "type": "Elevation of privilege",
+                  "description": "the attacker could manipulate his session to become an higher privileged user",
+                  "mitigation": "use custom secret to sign session with hash value",
+                  "threatId": "443e1701-6a92-43c5-9efd-85ca39148991",
+                  "$$hashKey": "object:78",
+                  "id": "3de7e11f-14c5-4b25-b8d0-710c2180c2ea"
+                }
+              ],
+              "hasOpenThreats": true,
+              "providesAuthentication": false,
+              "isBidirectional": false,
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false
+            }
+          },
+          {
+            "position": {
+              "x": 862,
+              "y": 83
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "crawler services\n100partnerprograms"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 5,
+            "id": "734f49a6-d6b3-48a1-b562-e3ad77733268",
+            "data": {
+              "name": "crawler services\n100partnerprograms",
+              "description": "",
+              "type": "tm.Actor",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [],
+              "hasOpenThreats": false,
+              "providesAuthentication": false
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "save or read request\nto db",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "b42a8283-399b-44e1-838e-26c2f5d728fb",
+            "labels": [
+              {
+                "position": {
+                  "distance": 0.5818059965968132,
+                  "offset": -3
+                },
+                "attrs": {
+                  "label": {
+                    "text": "request"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "2d3a84f7-ff4e-4594-b039-d33a57f9245d"
+            },
+            "target": {
+              "cell": "b75189d8-8eb2-4348-9708-b5d8a4057b28"
+            },
+            "vertices": [
+              {
+                "x": 272,
+                "y": 274
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "save to database",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "6ec89e8a-8ed8-4004-a0e3-b1c15e785f85",
+            "labels": [
+              {
+                "position": {
+                  "distance": 0.7688152275681848,
+                  "offset": 7.86211028483176
+                },
+                "attrs": {
+                  "label": {
+                    "text": "save or read request\nto db"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "2d3a84f7-ff4e-4594-b039-d33a57f9245d"
+            },
+            "target": {
+              "cell": "6df58d7f-8fb6-4b1d-9069-8d24a80769fd"
+            },
+            "vertices": [
+              {
+                "x": 594,
+                "y": 481
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "save into database",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "535a81d2-da05-4224-8cd1-50ca39b5ed2a",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "request"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "8798b15d-8939-4f3b-8b27-78ec7d95b697"
+            },
+            "target": {
+              "cell": "2d3a84f7-ff4e-4594-b039-d33a57f9245d"
+            },
+            "vertices": [
+              {
+                "x": 318,
+                "y": 203
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "response",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "3921c51e-c79d-413e-8977-64693ad901da",
+            "labels": [
+              {
+                "position": {
+                  "distance": 0.2896897513873646,
+                  "offset": -5.196731499723654
+                },
+                "attrs": {
+                  "label": {
+                    "text": "save into database"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "734f49a6-d6b3-48a1-b562-e3ad77733268"
+            },
+            "target": {
+              "cell": "6df58d7f-8fb6-4b1d-9069-8d24a80769fd"
+            },
+            "vertices": [
+              {
+                "x": 903,
+                "y": 292
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "response",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "fb87c433-8ea6-4abf-96be-c5680a00c93b",
+            "labels": [
+              {
+                "position": {
+                  "distance": 0.40031084899549496,
+                  "offset": 4.571128372031408
+                },
+                "attrs": {
+                  "label": {
+                    "text": "response"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "2d3a84f7-ff4e-4594-b039-d33a57f9245d"
+            },
+            "target": {
+              "cell": "8798b15d-8939-4f3b-8b27-78ec7d95b697"
+            },
+            "vertices": [
+              {
+                "x": 552,
+                "y": 169
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "request",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "6b4a68ff-762c-4915-babc-1ba1e3845f52",
+            "labels": [
+              {
+                "position": {
+                  "distance": 0.5539318759699797,
+                  "offset": -2.1640358096369843
+                },
+                "attrs": {
+                  "label": {
+                    "text": "response"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "8798b15d-8939-4f3b-8b27-78ec7d95b697"
+            },
+            "target": {
+              "cell": "5c6cb891-cb1c-4edb-8183-6b65ca1c7a3f"
+            },
+            "vertices": [
+              {
+                "x": 280,
+                "y": 40
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": true
+            },
+            "id": "29f6fe69-9f5f-4832-a6f7-295f74886322",
+            "labels": [
+              {
+                "position": {
+                  "distance": 0.35732333800360494,
+                  "offset": -3.0855367981757595
+                },
+                "attrs": {
+                  "label": {
+                    "text": "request"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "5c6cb891-cb1c-4edb-8183-6b65ca1c7a3f"
+            },
+            "target": {
+              "cell": "8798b15d-8939-4f3b-8b27-78ec7d95b697"
+            },
+            "vertices": [
+              {
+                "x": 249,
+                "y": 116
+              }
+            ]
+          },
+          {
+            "shape": "trust-broundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "873a0b8f-c7b6-4100-8d17-590cceccb4f5",
+            "labels": [],
+            "source": {
+              "x": 320,
+              "y": 159
+            },
+            "target": {
+              "x": 582,
+              "y": 204
+            },
+            "vertices": []
+          },
+          {
+            "shape": "trust-broundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "response",
+              "description": "",
+              "isTrustBoundary": false,
+              "hasOpenThreats": false,
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "threats": []
+            },
+            "id": "1821bc74-d516-4c99-9b15-d61c597a8b76",
+            "labels": [],
+            "source": {
+              "x": 360,
+              "y": 10
+            },
+            "target": {
+              "x": 290,
+              "y": 160
+            },
+            "vertices": [
+              {
+                "x": 320,
+                "y": 80
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "response of data\nrequests",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "6c5c6c1b-bf9f-4f57-b709-d1dbe36f85a3",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "response"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "b75189d8-8eb2-4348-9708-b5d8a4057b28"
+            },
+            "target": {
+              "cell": "2d3a84f7-ff4e-4594-b039-d33a57f9245d"
+            },
+            "vertices": [
+              {
+                "x": 254,
+                "y": 428
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "request",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false
+            },
+            "id": "7ec15125-2072-4c42-b07b-c25b0ab08adb",
+            "labels": [
+              {
+                "position": 0.5,
+                "attrs": {
+                  "label": {
+                    "text": "response of data\nrequests"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "6df58d7f-8fb6-4b1d-9069-8d24a80769fd"
+            },
+            "target": {
+              "cell": "734f49a6-d6b3-48a1-b562-e3ad77733268"
+            },
+            "vertices": [
+              {
+                "x": 1038,
+                "y": 310
+              }
+            ]
+          },
+          {
+            "shape": "trust-broundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "6904dbc0-d131-4e35-9d0b-e1ed81b22044",
+            "labels": [],
+            "source": {
+              "x": 886,
+              "y": 210
+            },
+            "target": {
+              "x": 1057,
+              "y": 248
+            },
+            "vertices": []
+          },
+          {
+            "shape": "trust-broundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "514fb27f-0a93-4c1e-bb3a-aabb1f872aac",
+            "labels": [],
+            "source": {
+              "x": 279,
+              "y": 231
+            },
+            "target": {
+              "x": 309,
+              "y": 463
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": true
+            },
+            "id": "c2e346b7-ecb1-43a5-b94b-5c2a9ab13642",
+            "labels": [
+              {
+                "position": {
+                  "distance": 0.6158166250216608,
+                  "offset": 4.0648026300400595
+                },
+                "attrs": {
+                  "label": {
+                    "text": "read response from\ndatabase"
+                  }
+                }
+              }
+            ],
+            "source": {
+              "cell": "6df58d7f-8fb6-4b1d-9069-8d24a80769fd"
+            },
+            "target": {
+              "cell": "2d3a84f7-ff4e-4594-b039-d33a57f9245d"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "trust-broundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "request",
+              "description": "",
+              "isTrustBoundary": false,
+              "hasOpenThreats": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "Through Access to Kubernetes Cluster Attacker Could add malicious containers or exchange",
+                  "mitigation": "- enable private cluster without public ip for control service kubectl",
+                  "threatId": "a044fef1-9680-4226-a1a9-532797d4e472",
+                  "$$hashKey": "object:160",
+                  "id": "ed463b68-cd7d-4bdf-a582-5a6e7a666d2c",
+                  "description": "Attackers could try to slow down or shut down the server by sending too many requests"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Elevation of privilege",
+                  "title": "Attackers could get root access and information to cluster secrets through malicious pods",
+                  "description": "Users could try to inject unallowed data into database or try to read from database throgh injected code",
+                  "mitigation": "- Through Secure Boot all Containers can't have root access and with Shielded GKE Nodes it checks if node in the cluster is VM which is initiated from google site through certificate",
+                  "threatId": "d4bc15a8-1e1b-4e26-ae6f-ff6d7ac6cd8d",
+                  "$$hashKey": "object:166",
+                  "id": "6f50bd3f-9a1b-443d-890a-23ce6eedba82"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Denial of service",
+                  "title": "DDOS Pods from outside",
+                  "description": "Sending lot of requests to pods from outside to get down the Application or parts of the application",
+                  "mitigation": "- deny all ingress & egress by default when it does not need them",
+                  "threatId": "e2e8e914-1bcd-4a31-8d49-385e6c850274",
+                  "$$hashKey": "object:172",
+                  "id": "18607f5e-8787-457b-954f-64bcb1f66764"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Information disclosure",
+                  "title": "Server Config Information Disclosure through API",
+                  "description": "Attackers can get Service Config Information through Error Messages in Graphql",
+                  "mitigation": "- implement custom error handling instead of giving unfiltered error message from passport especially\n- on prod disable stack tracing",
+                  "threatId": "b3afb822-1124-4ae1-9ef0-df56b572bf01",
+                  "$$hashKey": "object:631",
+                  "id": "8bb97fd7-2680-4c2f-aa53-161ab621f56d"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "cross site scripting attack to execute code in frontend of other users",
+                  "mitigation": "escape all user inputs & don't execute js which is comming from backend",
+                  "description": "Attackers could execute cross site scripting attack to execute code in frontend of other users or getting information from backend through console logs or alerts",
+                  "threatId": "f51d9666-e83b-4c71-9e57-10ea065b5283",
+                  "$$hashKey": "object:62",
+                  "id": "de92cf68-140a-491e-8f03-4f1b884fce59"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "title": "Attackers with access to container could manipulate logging files",
+                  "type": "Repudiation",
+                  "mitigation": "- usage of audit logging of kubernetes microservices logging mechanism",
+                  "description": "Attackers with access to container could manipulate logging files",
+                  "threatId": "c70876f8-7a3c-4b09-b46d-a643213a2924",
+                  "$$hashKey": "object:75",
+                  "id": "fd9ec9e4-c9ae-4833-92eb-410b022efd86"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could communicate with backend from own frontend",
+                  "type": "Spoofing",
+                  "mitigation": "- origin check with whitelist of allowed frontend services",
+                  "threatId": "5253ed83-e692-4821-be4e-771bdeeaa50e",
+                  "$$hashKey": "object:69",
+                  "id": "c76f1f79-c299-4fdb-8fa6-e5a2c13d7ff8"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could get information over the network",
+                  "mitigation": "- encrypt all traffic with TLS",
+                  "type": "Information disclosure",
+                  "threatId": "da91cb95-86e2-4eee-8119-21e93085444f",
+                  "$$hashKey": "object:67",
+                  "id": "0af4b190-a835-4e62-a95c-c880aa705e25"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "High",
+                  "modelType": "STRIDE",
+                  "type": "Denial of service",
+                  "title": "sending too big requests and let server crash",
+                  "mitigation": "- request size checking",
+                  "threatId": "9eb6378c-5750-4f8d-8e2d-d54f5bee1603",
+                  "$$hashKey": "object:454",
+                  "id": "5b43629a-ab40-4f81-8ac3-ad0449739984"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "session hijacking",
+                  "type": "Elevation of privilege",
+                  "description": "the attacker could manipulate his session to become an higher privileged user",
+                  "mitigation": "use custom secret to sign session with hash value",
+                  "threatId": "443e1701-6a92-43c5-9efd-85ca39148991",
+                  "$$hashKey": "object:78",
+                  "id": "3de7e11f-14c5-4b25-b8d0-710c2180c2ea"
+                }
+              ],
+              "isALog": false,
+              "storesCredentials": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "providesAuthentication": false,
+              "isBidirectional": false,
+              "protocol": "",
+              "isPublicNetwork": false
+            },
+            "id": "00f2b88c-1866-4589-8bc5-368cfecc1ce8",
+            "labels": [],
+            "source": {
+              "x": 487,
+              "y": 439
+            },
+            "target": {
+              "x": 542,
+              "y": 346
+            },
+            "vertices": []
+          },
+          {
+            "shape": "trust-broundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "threats": []
+            },
+            "id": "11080e9e-f435-408e-9f21-800add05460a",
+            "source": {
+              "x": 320,
+              "y": 710
+            },
+            "target": {
+              "x": 490,
+              "y": 700
+            },
+            "vertices": [
+              {
+                "x": 410,
+                "y": 680
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": []
+            },
+            "id": "1523ad70-624c-4a3f-9890-edf6e8a3fd5f",
+            "source": {
+              "cell": "267b8613-ccd6-49b0-bbc4-0046ca01ad54"
+            },
+            "target": {
+              "x": 360,
+              "y": 630
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": []
+            },
+            "id": "56008ab9-b23d-45e8-8b01-13659df5c248",
+            "source": {
+              "x": 420,
+              "y": 630
+            },
+            "target": {
+              "x": 440,
+              "y": 740
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": []
+            },
+            "id": "6e71c233-cc59-4e6d-8a38-7e36141f585d",
+            "source": {
+              "x": 440,
+              "y": 390
+            },
+            "target": {
+              "x": 430,
+              "y": 520
+            },
+            "vertices": [
+              {
+                "x": 440,
+                "y": 480
+              }
+            ],
+            "labels": [
+              "request"
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Actor",
+              "name": "crawler services\n100partnerprograms",
+              "description": "",
+              "outOfScope": false,
+              "isBidirectional": false,
+              "reasonOutOfScope": "",
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "hasOpenThreats": false,
+              "threats": [],
+              "isTrustBoundary": false,
+              "providesAuthentication": false
+            },
+            "id": "0069659b-32e9-47ea-b703-aef4a50b864c",
+            "source": {
+              "x": 350,
+              "y": 520
+            },
+            "target": {
+              "x": 370,
+              "y": 400
+            },
+            "vertices": [
+              {
+                "x": 350,
+                "y": 480
+              }
+            ],
+            "labels": [
+              "response"
+            ]
+          },
+          {
+            "shape": "trust-broundary-curve",
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Boundary",
+              "name": "",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            },
+            "id": "291f6ba9-b88f-4ff7-abb0-7b0c5f0e56c1",
+            "source": {
+              "x": 330,
+              "y": 427
+            },
+            "target": {
+              "x": 460,
+              "y": 480
+            }
+          },
+          {
+            "position": {
+              "x": 10,
+              "y": 90
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "browser"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 19,
+            "id": "5c6cb891-cb1c-4edb-8183-6b65ca1c7a3f",
+            "data": {
+              "name": "gcloud gke cluster",
+              "description": "",
+              "type": "tm.Actor",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "Through Access to Kubernetes Cluster Attacker Could add malicious containers or exchange",
+                  "mitigation": "- enable private cluster without public ip for control service kubectl",
+                  "threatId": "a044fef1-9680-4226-a1a9-532797d4e472",
+                  "$$hashKey": "object:160",
+                  "id": "ed463b68-cd7d-4bdf-a582-5a6e7a666d2c"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could get root access and information to cluster secrets through malicious pods",
+                  "type": "Elevation of privilege",
+                  "mitigation": "- Through Secure Boot all Containers can't have root access and with Shielded GKE Nodes it checks if node in the cluster is VM which is initiated from google site through certificate",
+                  "threatId": "d4bc15a8-1e1b-4e26-ae6f-ff6d7ac6cd8d",
+                  "$$hashKey": "object:166",
+                  "id": "6f50bd3f-9a1b-443d-890a-23ce6eedba82"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "DDOS Pods from outside",
+                  "type": "Denial of service",
+                  "description": "Sending lot of requests to pods from outside to get down the Application or parts of the application",
+                  "mitigation": "- deny all ingress & egress by default when it does not need them",
+                  "threatId": "e2e8e914-1bcd-4a31-8d49-385e6c850274",
+                  "$$hashKey": "object:172",
+                  "id": "18607f5e-8787-457b-954f-64bcb1f66764"
+                }
+              ],
+              "hasOpenThreats": false,
+              "providesAuthentication": false
+            }
+          },
+          {
+            "position": {
+              "x": 7570,
+              "y": 450
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "gcloud gke cluster"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 38,
+            "id": "9227d181-1522-49e9-af52-62cca62972bc",
+            "data": {
+              "name": "request",
+              "description": "",
+              "type": "tm.Flow",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Tampering",
+                  "title": "Through Access to Kubernetes Cluster Attacker Could add malicious containers or exchange",
+                  "mitigation": "- enable private cluster without public ip for control service kubectl",
+                  "threatId": "a044fef1-9680-4226-a1a9-532797d4e472",
+                  "$$hashKey": "object:160",
+                  "id": "ed463b68-cd7d-4bdf-a582-5a6e7a666d2c"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "Attackers could get root access and information to cluster secrets through malicious pods",
+                  "type": "Elevation of privilege",
+                  "mitigation": "- Through Secure Boot all Containers can't have root access and with Shielded GKE Nodes it checks if node in the cluster is VM which is initiated from google site through certificate",
+                  "threatId": "d4bc15a8-1e1b-4e26-ae6f-ff6d7ac6cd8d",
+                  "$$hashKey": "object:166",
+                  "id": "6f50bd3f-9a1b-443d-890a-23ce6eedba82"
+                },
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "title": "DDOS Pods from outside",
+                  "type": "Denial of service",
+                  "description": "Sending lot of requests to pods from outside to get down the Application or parts of the application",
+                  "mitigation": "- deny all ingress & egress by default when it does not need them",
+                  "threatId": "e2e8e914-1bcd-4a31-8d49-385e6c850274",
+                  "$$hashKey": "object:172",
+                  "id": "18607f5e-8787-457b-954f-64bcb1f66764"
+                }
+              ],
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "isBidirectional": false,
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false
+            }
+          },
+          {
+            "position": {
+              "x": 316,
+              "y": 754
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "milvus vector database"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "id": "267b8613-ccd6-49b0-bbc4-0046ca01ad54",
+            "data": {
+              "name": "milvus vector database",
+              "description": "",
+              "type": "tm.Flow",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [
+                {
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "modelType": "STRIDE",
+                  "type": "Elevation of privilege",
+                  "title": "doing allowed actions by getting access to database connection",
+                  "mitigation": "- use account based conection withrestricted scope of access",
+                  "threatId": "5934950e-79db-4165-9027-2bbd7f24a8a2",
+                  "$$hashKey": "object:460",
+                  "id": "cdfcaa41-8bf2-4a2a-854c-5f8cdf448cd5"
+                }
+              ],
+              "hasOpenThreats": false,
+              "isALog": false,
+              "storesCredentials": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "isBidirectional": false,
+              "protocol": "",
+              "isPublicNetwork": false
+            },
+            "zIndex": 39
+          },
+          {
+            "position": {
+              "x": 330,
+              "y": 540
+            },
+            "size": {
+              "width": 160,
+              "height": 80
+            },
+            "attrs": {
+              "text": {
+                "text": "recommendation service"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "id": "82e58580-bfe8-4107-ac6b-59815e2279a2",
+            "data": {
+              "name": "recommendation service",
+              "description": "",
+              "type": "tm.Flow",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "threats": [],
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "isBidirectional": false,
+              "protocol": "",
+              "isEncrypted": false,
+              "isPublicNetwork": false
+            },
+            "zIndex": 40
+          }
+        ],
+        "version": "2.1.1",
+        "title": "gke-application-environment",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "id": 0,
+        "diagramType": "STRIDE"
+      }
+    ],
+    "diagramTop": 10,
+    "threatTop": 102
+  },
+  "version": "2.1.1"
+}
