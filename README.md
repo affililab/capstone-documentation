@@ -18,8 +18,6 @@ The Website https://affililab.de can be visited here **[here](https://affililab.
 # Technical Structure of the Project
 **[All Draw IO Diagrams](./assets/application-structure.drawio)**
 
-- [Capstone Project Documentation](#capstone-project-documentation)
-    * [Intro](#intro)
 - [Technical Structure of the Project](#technical-structure-of-the-project)
     * [Application Overview](#application-overview)
         + [Project Entities](#project-entities)
