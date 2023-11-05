@@ -34,29 +34,30 @@ The Website https://affililab.de can be visited here **[here](https://affililab.
     + [Layouts Components Main Page and Dashboard](#layouts-components-main-page-and-dashboard)
     + [Frontend Authentication](#frontend-authentication)
     + [Module Structure](#module-structure)
-        * [Backend](#backend)
-    + [Request Flow](#request-flow)
-    + [Authentication Structure](#authentication-structure)
-    + [Backend Authorization](#backend-authorization)
-        * [Database Structure](#database-structure)
-            + [ERM](#erm)
-        * [Crawler](#crawler)
-            + [indexing](#indexing)
-            + [crawling](#crawling)
-            + [importer](#importer)
-        * [Recommendation Service](#recommendation-service)
-- [!recommendation-approaches.svg](#recommendation-approachessvg)
-    * [Integration of the Recommendation System into the Project Structure](#integration-of-the-recommendation-system-into-the-project-structure)
-- [!recommendation-overview.svg](#recommendation-overviewsvg)
-    * [Content Based](#content-based)
-- [!cosin-similarity-search.png](#cosin-similarity-searchpng)
-    + [Algorithm Flow Chart](#algorithm-flow-chart)
-        * [Collaborative](#collaborative)
-            + [Algorithm Flow Chart](#algorithm-flow-chart-1)
-        * [Security Measurements](#security-measurements)
-            + [Thread Model](#thread-model)
-        * [Application Security](#application-security)
-            + [Threats](#threats)
+    * [Backend](#backend)
+      + [Request Flow](#request-flow)
+      + [Authentication Structure](#authentication-structure)
+      + [Backend Authorization](#backend-authorization)
+      + [Backend Create Resource](#Creating-new-Resource-API-for-new-Entity)
+    * [Database Structure](#database-structure)
+        + [ERM](#erm)
+  * [Crawler](#crawler)
+      + [indexing](#indexing)
+      + [crawling](#crawling)
+      + [importer](#importer)
+  * [Recommendation Service](#recommendation-service)
+    - [!recommendation-approaches.svg](#recommendation-approachessvg)
+        * [Integration of the Recommendation System into the Project Structure](#integration-of-the-recommendation-system-into-the-project-structure)
+    - [!recommendation-overview.svg](#recommendation-overviewsvg)
+        * [Content Based](#content-based)
+    - [!cosin-similarity-search.png](#cosin-similarity-searchpng)
+  * [Algorithm Flow Chart](#algorithm-flow-chart)
+  * [Collaborative](#collaborative)
+  * [Algorithm Flow Chart](#algorithm-flow-chart-1)
+  * [Security Measurements](#security-measurements)
+    + [Thread Model](#thread-model)
+  * [Application Security](#application-security)
+    + [Threats](#threats)
 
 ## Application Overview
 
@@ -337,6 +338,216 @@ the abilityMiddleware checks if the user has the requested ability or not.
 Which ability a user need for the specific query or mutation can be defined before executing the controller
 functionality.
 ![backend-authorization.svg](assets%2Fimages%2Fbackend-authorization.svg)
+
+### Creating new Resource API for new Entity
+To create the Backend part for a new entity some steps have to be done
+- creating a model
+```typescript
+// /src/frameworks/database/mongodb/models/MyNewResource.ts
+
+import mongoose from "mongoose"
+import {AccessibleFieldsDocument, accessibleRecordsPlugin} from '@casl/mongoose'
+
+const Schema = mongoose.Schema;
+
+export interface NewResourceModel extends AccessibleFieldsDocument {
+    title: string;
+}
+
+const newResourceSchema = new Schema<newResourceModel>({
+    title: {
+        type: String,
+        required: true
+    }
+});
+
+newResourceSchema.plugin(accessibleRecordsPlugin);
+
+export const NewResourceModel = mongoose.model('newResources', newResourceSchema);
+
+```
+
+- creating Repository
+```typescript
+// /src/frameworks/database/mongodb/repositories/MongoDBNewResourceModelRepository.ts
+
+import { NewResourceModel } from "@models/NewResourceModel";
+import {AppAbility} from "@configs";
+import {BaseRepository} from "./BaseRepository";
+
+export class MongoDBNewResourceModelRepository extends BaseRepository {
+    constructor(user: any, ability: AppAbility) {
+        super(user, ability, NewResourceModel);
+    }
+}
+```
+- create validation
+```typescript
+// /src/frameworks/validation/Joi/schemas/NewResource/AddSchema.ts
+import Joi, {ObjectSchema} from 'joi';
+
+const schema: ObjectSchema = Joi.object({
+    title: Joi.string()
+        .min(3)
+        .max(30)
+        .required(),
+}).options({abortEarly: false});
+
+export {
+    schema
+};
+
+// /src/frameworks/validation/Joi/schemas/NewResource/EditSChema.ts
+import Joi, {ObjectSchema} from 'joi';
+
+const schema: ObjectSchema = Joi.object({
+    title: Joi.string()
+        .min(3)
+        .max(30),
+}).options({abortEarly: false});
+export {
+    schema
+};
+
+// /src/frameworks/validation/Joi/schemas/NewResource/index.ts
+```
+
+- create Resource Controller
+```typescript
+// /src/controller/MyNewResourceController.ts
+import {ProjectDependencyType} from "@affililab/affililab-ms-library"
+import {MongoDBNewResourceModelRepository} from "../frameworks/database/mongodb/repositories";
+import {BaseResourceController} from "./BaseResourceController";
+import {AddSchema, EditSchema} from "@schemas/MongoDBNewResourceModelRepository";
+
+export class MyNewResourceController extends BaseResourceController{
+    constructor(projectDependencies: ProjectDependencyType) {
+        super("MyNewResource", projectDependencies, MongoDBNewResourceModelRepository, AddSchema, EditSchema)
+    }
+}
+```
+
+- create graphql endpoints, types
+```typescript
+// /src/frameworks/graphql/schemas/MyNewResource/endpoints.ts
+import {authenticatedMiddleware, ProjectDependencyType} from "@affililab/affililab-ms-library";
+import {NewResourceController} from "@controller";
+
+export const endpoints = (projectDependencies : ProjectDependencyType) => {
+
+    // init controller
+    const controller = new NewResourceController(projectDependencies);
+
+    const { AuthorizationService } = projectDependencies;
+
+    return {
+        Queries: {
+            getNewResources: async (parent: any, {
+                meta = {
+                    page: 0,
+                    sortBy: 'title',
+                    direction: 1,
+                    limit: 10,
+                    filters: []
+                }
+            }: any, context: any) => authenticatedMiddleware(context) && await controller.readAll(parent, meta, context, AuthorizationService.abilityMiddleware(context.getUser(), 'read', 'newResources', 'NewResources')),
+            getNewResource : async (parent : any, {id} : any,  context : any) => authenticatedMiddleware(context) && await controller.read(id, context, AuthorizationService.abilityMiddleware(context.getUser(), 'read', 'newResources', 'NewResources'))
+        },
+        Mutations: {
+            createNewResource : async (parent : any, {payload} : any, context : any) => authenticatedMiddleware(context) && await controller.create(payload, context, AuthorizationService.abilityMiddleware(context.getUser(), 'create', 'newResources', 'NewResources')),
+            updateNewResource : async (parent : any, {id, payload} : any, context: any) => authenticatedMiddleware(context) && await controller.update(id, payload, context, AuthorizationService.abilityMiddleware(context.getUser(), 'update', 'newResources', 'NewResources')),
+            deleteNewResource : async (parent : any, {ids, payload} : any, context: any) => authenticatedMiddleware(context) && await controller.delete(ids, context, AuthorizationService.abilityMiddleware(context.getUser(), 'delete', 'newResources', 'NewResources'))
+        }
+    }
+};
+
+// /src/frameworks/graphql/schemas/MyNewResource/endpoints.ts
+import {gql} from "@affililab/affililab-ms-library";
+
+export const typeDefs = gql`
+
+    input NewResourceInput {
+        title: String       
+    }
+
+    type NewResource {
+        id: ID
+        title: String       
+    }
+
+    type NewResourceResponse implements PaginatedResponse {
+        pageInfo: PageInfo
+        items: [NewResource]
+    }
+
+    type Query {
+        getNewResources(
+            meta: IndexMeta
+        ): NewResourceResponse
+        getNewResourcesByIds(ids: [ID]): [NewResource]
+        getNewResource (id : String) : NewResource
+    }
+
+    type Mutation {
+        createNewResource(payload: NewResourceInput) : NewResource
+        updateNewResource(id: ID!, payload: NewResourceInput) : NewResource
+        deleteNewResource(ids: [ID]!) : DeletionResponse
+    }
+`;
+
+// /src/frameworks/graphql/schemas/MyNewResource/index.ts
+export * from "./types"
+export * from "./endpoints"
+```
+
+- register schema to combined Project Schemas
+```typescript
+// /src/frameworks/graphql/schemas/index.ts
+import {endpoints as NewResourceEndpoints, typeDefs as NewResourceTypeDefs} from "./NewResource"
+
+export const SchemaBuilder = (projectDependencies: ProjectDependencyType): ProjectGraphQLSchema => {
+    // merge all type defs
+    const typeDefs = mergeTypeDefs([
+        ...existingTypeDefs,
+        NewResourceTypeDefs
+    ]);
+
+    // init endpoint objects with injecting project dependencies
+    const newResourceEndpoints = NewResourceEndpoints(projectDependencies);
+
+    const resolvers = {
+        Query: {
+            ...existing,
+            ...newResourceEndpoints.Queries
+        },
+        Mutation: {
+            ...newResourceEndpoints.Mutations,
+        }
+    }
+}
+```
+- add ability
+```typescript
+// register ability into authorizationInitiator
+rolePermissions: {
+    user(user : any, { can  } : any) {
+        ...existingAbilities;
+        can('read', 'newresource');
+    },
+    contributor(user : any, { can  } : any) {
+        ...existingAbilities;
+        can('manage', 'newresource');
+    },
+    admin(user : any, { can  } : any) {
+        ...existingAbilities;
+        can('manage', 'newresource');
+    }
+}
+
+// /src/configs/Authorization/index.ts
+const subjects = [...existing, 'newresources'] as const;
+```
+
 
 ## Database Structure
 
